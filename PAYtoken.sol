@@ -642,6 +642,12 @@ contract PayToken is CrowdsaleToken {
 
             balances[owner] = balances[owner]
                 .sub(values[i]);
+
+             emit Transfer(
+                owner,
+                recipients[i],
+                values[i]
+            );
         }
     }
 }
