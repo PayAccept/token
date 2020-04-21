@@ -534,7 +534,7 @@ contract CrowdsaleToken is
         );
         require(
             msg.value > 0,
-            "transacin value is 0"
+            "transaction value is 0"
         );
         require(
             !tokenBlacklist[msg.sender],
