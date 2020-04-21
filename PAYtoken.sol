@@ -1,49 +1,173 @@
-pragma solidity 0.4.23;
+pragma solidity 0.5.7;
 
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */
 library SafeMath {
     /**
-     * @dev Multiplies two numbers, throws on overflow.
-     **/
-    function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
+     * @dev Returns the addition of two unsigned integers, reverting on
+     * overflow.
+     *
+     * Counterpart to Solidity's `+` operator.
+     *
+     * Requirements:
+     * - Addition cannot overflow.
+     */
+    function add(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 c = a + b;
+        require(c >= a, "SafeMath: addition overflow");
+
+        return c;
+    }
+
+    /**
+     * @dev Returns the subtraction of two unsigned integers, reverting on
+     * overflow (when the result is negative).
+     *
+     * Counterpart to Solidity's `-` operator.
+     *
+     * Requirements:
+     * - Subtraction cannot overflow.
+     */
+    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+        return sub(a, b, "SafeMath: subtraction overflow");
+    }
+
+    /**
+     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
+     * overflow (when the result is negative).
+     *
+     * Counterpart to Solidity's `-` operator.
+     *
+     * Requirements:
+     * - Subtraction cannot overflow.
+     *
+     * _Available since v2.4.0._
+     */
+    function sub(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
+        require(b <= a, errorMessage);
+        uint256 c = a - b;
+
+        return c;
+    }
+
+    /**
+     * @dev Returns the multiplication of two unsigned integers, reverting on
+     * overflow.
+     *
+     * Counterpart to Solidity's `*` operator.
+     *
+     * Requirements:
+     * - Multiplication cannot overflow.
+     */
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
         if (a == 0) {
             return 0;
         }
-        c = a * b;
-        assert(c / a == b);
+
+        uint256 c = a * b;
+        require(c / a == b, "SafeMath: multiplication overflow");
+
         return c;
     }
 
     /**
-     * @dev Integer division of two numbers, truncating the quotient.
-     **/
+     * @dev Returns the integer division of two unsigned integers. Reverts on
+     * division by zero. The result is rounded towards zero.
+     *
+     * Counterpart to Solidity's `/` operator. Note: this function uses a
+     * `revert` opcode (which leaves remaining gas untouched) while Solidity
+     * uses an invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     * - The divisor cannot be zero.
+     */
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        // assert(b > 0); // Solidity automatically throws when dividing by 0
-/**
- * @title SafeMath
- * @dev Math operations with safety checks that throw on error
- */
-        // uint256 c = a / b;
+        return div(a, b, "SafeMath: division by zero");
+    }
+
+    /**
+     * @dev Returns the integer division of two unsigned integers. Reverts with custom message on
+     * division by zero. The result is rounded towards zero.
+     *
+     * Counterpart to Solidity's `/` operator. Note: this function uses a
+     * `revert` opcode (which leaves remaining gas untouched) while Solidity
+     * uses an invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     * - The divisor cannot be zero.
+     *
+     * _Available since v2.4.0._
+     */
+    function div(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
+        // Solidity only automatically asserts when dividing by 0
+        require(b > 0, errorMessage);
+        uint256 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-        return a / b;
-    }
 
-    /**
-     * @dev Subtracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
-     **/
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        assert(b <= a);
-        return a - b;
-    }
-
-    /**
-     * @dev Adds two numbers, throws on overflow.
-     **/
-    function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
-        c = a + b;
-        assert(c >= a);
         return c;
+    }
+
+    /**
+     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
+     * Reverts when dividing by zero.
+     *
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
+     * opcode (which leaves remaining gas untouched) while Solidity uses an
+     * invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     * - The divisor cannot be zero.
+     */
+    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
+        return mod(a, b, "SafeMath: modulo by zero");
+    }
+
+    /**
+     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
+     * Reverts with custom message when dividing by zero.
+     *
+     * Counterpart to Solidity's `%` operator. This function uses a `revert`
+     * opcode (which leaves remaining gas untouched) while Solidity uses an
+     * invalid opcode to revert (consuming all remaining gas).
+     *
+     * Requirements:
+     * - The divisor cannot be zero.
+     *
+     * _Available since v2.4.0._
+     */
+    function mod(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
+        require(b != 0, errorMessage);
+        return a % b;
     }
 }
+
 
 /**
  * @title Ownable
@@ -53,21 +177,24 @@ library SafeMath {
 
 contract Ownable {
     address public owner;
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     /**
      * @dev The Ownable constructor sets the original `owner` of the contract to the sender account.
      **/
-   constructor() public {
-      owner = msg.sender;
+    constructor() public {
+        owner = msg.sender;
     }
 
     /**
      * @dev Throws if called by any account other than the owner.
      **/
     modifier onlyOwner() {
-      require(msg.sender == owner);
-      _;
+        require(msg.sender == owner, "only owner can make this transaction");
+        _;
     }
 
     /**
@@ -75,11 +202,15 @@ contract Ownable {
      * @param newOwner The address to transfer ownership to.
      **/
     function transferOwnership(address newOwner) public onlyOwner {
-      require(newOwner != address(0));
-      emit OwnershipTransferred(owner, newOwner);
-      owner = newOwner;
+        require(
+            newOwner != address(0),
+            "new owner can not be a zero address"
+        );
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
     }
 }
+
 
 /**
  * @title ERC20Basic interface
@@ -87,23 +218,43 @@ contract Ownable {
  **/
 contract ERC20Basic {
     function totalSupply() public view returns (uint256);
+
     function balanceOf(address who) public view returns (uint256);
+
     function transfer(address to, uint256 value) public returns (bool);
+
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
+
 
 /**
  * @title ERC20 interface
  * @dev see https://github.com/ethereum/EIPs/issues/20
  **/
 contract ERC20 is ERC20Basic {
-    function allowance(address owner, address spender) public view returns (uint256);
-    function transferFrom(address from, address to, uint256 value) public returns (bool);
-    function approve(address spender, uint256 value) public returns (bool);
-    event Approval(address indexed owner, address indexed spender, uint256 value);
-    event Burn(address indexed from, uint256 value);
-    event Blacklist(address indexed blackListed, bool value);
+    function allowance(address owner, address spender)
+        public
+        view
+        returns (uint256);
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) public returns (bool);
+
+    function approve(
+        address spender,
+        uint256 value
+    ) public returns (bool);
+
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }
+
 
 /**
  * @title Basic token
@@ -126,13 +277,22 @@ contract BasicToken is ERC20Basic {
      * @param _to The address to transfer to.
      * @param _value The amount to be transferred.
      **/
-    function transfer(address _to, uint256 _value) internal returns (bool) {
-        require(_to != address(0));
-        require(_value <= balances[msg.sender]);
+    function _transfer(address _to, uint256 _value) internal returns (bool) {
+        require(
+            _to != address(0),
+            "transfer to zero address is not  allowed"
+        );
+        require(
+            _value <= balances[msg.sender],
+            "sender does not have enough balance"
+        );
 
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
-        emit Transfer(msg.sender, _to, _value);
+        emit Transfer(
+            msg.sender,
+            _to, _value
+        );
         return true;
     }
 
@@ -146,27 +306,88 @@ contract BasicToken is ERC20Basic {
     }
 }
 
-contract StandardToken is ERC20, BasicToken {
-    mapping (address => mapping (address => uint256)) internal allowed;
-    mapping (address => bool) tokenBlacklist;
+
+contract StandardToken is Ownable, ERC20, BasicToken {
+    mapping(address => mapping(address => uint256)) internal allowed;
+    mapping(address => bool) public tokenBlacklist;
+
+    event Blacklisted(
+        address indexed blackListed,
+        bool value
+    );
+
+
     /**
      * @dev Transfer tokens from one address to another
      * @param _from address The address which you want to send tokens from
      * @param _to address The address which you want to transfer to
      * @param _value uint256 the amount of tokens to be transferred
      **/
-    function transferFrom(address _from, address _to, uint256 _value) internal returns (bool) {
-        require(_to != address(0));
-        require(_value <= balances[_from]);
-        require(_value <= allowed[_from][msg.sender]);
-        require(tokenBlacklist[msg.sender] == false);
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _value
+    ) public returns (bool) {
+        require(
+            _to != address(0),
+            "transfer to zero address is not  allowed"
+        );
+        require(
+            _value <= balances[_from],
+            "from address does not have enough balance"
+        );
+        require(
+            _value <= allowed[_from][msg.sender],
+            "sender does not have enough allowance"
+        );
+        require(
+            !tokenBlacklist[msg.sender],
+            "sender is blacklisted"
+        );
+        require(
+            !tokenBlacklist[_from],
+            "from address is blacklisted"
+        );
+        require(
+            !tokenBlacklist[_to],
+            "receiver is blacklisted"
+        );
 
-        balances[_from] = balances[_from].sub(_value);
-        balances[_to] = balances[_to].add(_value);
-        allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
+        balances[_from] = balances[_from]
+            .sub(_value);
 
-        emit Transfer(_from, _to, _value);
+        balances[_to] = balances[_to]
+            .add(_value);
+
+        allowed[_from][msg.sender] = allowed[
+                _from
+            ]
+            [
+                msg.sender
+            ].sub(_value);
+
+        emit Transfer(
+            _from,
+            _to,
+            _value
+        );
         return true;
+    }
+
+    function transfer(
+        address to,
+        uint256 value
+    ) public returns(bool) {
+        require(
+            !tokenBlacklist[msg.sender],
+            "sender is blacklisted"
+        );
+        require(
+            !tokenBlacklist[to],
+            "receiver is blacklisted"
+        );
+
+        return _transfer(to, value);
     }
 
     /**
@@ -180,7 +401,6 @@ contract StandardToken is ERC20, BasicToken {
      * @param _value The amount of tokens to be spent.
      **/
     function approve(address _spender, uint256 _value) public returns (bool) {
-        require(tokenBlacklist[msg.sender] == false);
         allowed[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;
@@ -192,35 +412,30 @@ contract StandardToken is ERC20, BasicToken {
      * @param _spender address The address which will spend the funds.
      * @return A uint256 specifying the amount of tokens still available for the spender.
      **/
-    function allowance(address _owner, address _spender) public view returns (uint256) {
-        return allowed[_owner][_spender];
+    function allowance(address _owner, address _spender)
+        public
+        view
+        returns (uint256)
+    {
+        return allowed[
+            _owner
+        ]
+        [
+            _spender
+        ];
     }
 
     /**
-   * @dev Adds or removes a specific address from the blacklist
-   * @param _address The address to blacklist or unblacklist
-   * @param _isBlackListed Boolean value determining if the address is blackListed
-   */
-    function blackList(address _address, bool _isBlackListed) public onlyOwner {
-        require(tokenBlacklist[_address] != _isBlackListed);
-        tokenBlacklist[_address] = _isBlackListed;
-        emit Blacklist(_address, _isBlackListed);
-        return true;
-    }
-
-    /**
-     * Destroy tokens
-     *
-     * Remove `_value` tokens from the system irreversibly
-     *
-     * @param _value the amount of money to burn
+     * @dev Adds or removes a specific address from the blacklist
+     * @param _address The address to blacklist or unblacklist
+     * @param _isBlackListed Boolean value determining if the address is blackListed
      */
-    function burn(uint256 _value) public onlyOwner returns (bool success) {
-        require(balanceOf[msg.sender] >= _value);   // Check if the sender has enough
-        balanceOf[msg.sender] -= _value;            // Subtract from the sender
-        totalSupply -= _value;                      // Updates totalSupply
-        emit Burn(msg.sender, _value);
-        return true;
+    function blackList(
+        address _address,
+        bool _isBlackListed
+    ) public onlyOwner {
+        tokenBlacklist[_address] = _isBlackListed;
+        emit Blacklisted(_address, _isBlackListed);
     }
 
     /**
@@ -233,9 +448,13 @@ contract StandardToken is ERC20, BasicToken {
      * @param _spender The address which will spend the funds.
      * @param _addedValue The amount of tokens to increase the allowance by.
      **/
-    function increaseApproval(address _spender, uint _addedValue) public returns (bool) {
-        require(tokenBlacklist[msg.sender] == false);
-        allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
+    function increaseApproval(address _spender, uint256 _addedValue)
+        public
+        returns (bool)
+    {
+        allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(
+            _addedValue
+        );
         emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
@@ -250,9 +469,11 @@ contract StandardToken is ERC20, BasicToken {
      * @param _spender The address which will spend the funds.
      * @param _subtractedValue The amount of tokens to decrease the allowance by.
      **/
-    function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {
-        require(tokenBlacklist[msg.sender] == false);
-        uint oldValue = allowed[msg.sender][_spender];
+    function decreaseApproval(address _spender, uint256 _subtractedValue)
+        public
+        returns (bool)
+    {
+        uint256 oldValue = allowed[msg.sender][_spender];
         if (_subtractedValue > oldValue) {
             allowed[msg.sender][_spender] = 0;
         } else {
@@ -263,162 +484,164 @@ contract StandardToken is ERC20, BasicToken {
     }
 }
 
-/**
- * @title Configurable
- * @dev Configurable variables of the contract
- **/
-contract Configurable {
-    uint256 public constant cap = 1000000*10**18;
-    uint256 public constant basePrice = 100*10**18; // tokens per 1 ether
-    uint256 public tokensSold = 0;
 
-    uint256 public constant tokenReserve = 1000000*10**18;
-    uint256 public remainingTokens = 0;
+/**
+ * @title Configuration
+ * @dev Configuration variables of the contract
+ **/
+contract Configuration {
+    uint256 public basePrice = 750; // tokens per 1 ether
+    string public name = "PayAccept";
+    string public symbol = "PAY";
+    uint256 public decimals = 18;
+    uint256 public initial_supply = 20000000 * 10**18;
+    uint256 public tokens_sold = 0;
 }
+
 
 /**
  * @title CrowdsaleToken
  * @dev Contract to preform crowd sale with token
  **/
-contract CrowdsaleToken is StandardToken, Configurable, Ownable {
+contract CrowdsaleToken is
+    StandardToken,
+    Configuration {
     /**
      * @dev enum of current crowd sale state
      **/
-     enum Stages {
-        none,
-        icoStart,
-        icoEnd
-    }
+    enum Stages {none, start, end}
 
-    Stages currentStage;
+    Stages public currentStage;
+    event BasePriceChanged(
+        uint256 oldPrice,
+        uint256 indexed newPrice
+    );
 
     /**
      * @dev constructor of CrowdsaleToken
      **/
     constructor() public {
         currentStage = Stages.none;
-        balances[owner] = balances[owner].add(tokenReserve);
-        totalSupply_ = totalSupply_.add(tokenReserve);
-        remainingTokens = cap;
-        emit Transfer(address(this), owner, tokenReserve);
     }
 
     /**
      * @dev fallback function to send ether to for Crowd sale
      **/
-    function () public payable {
-        require(currentStage == Stages.icoStart);
-        require(msg.value > 0);
-        require(remainingTokens > 0);
-
+    function() external payable {
+        require(
+            currentStage == Stages.start,
+            "ICO is not in start stage"
+        );
+        require(
+            msg.value > 0,
+            "transacin value is 0"
+        );
+        require(
+            !tokenBlacklist[msg.sender],
+            "sender is blacklisted"
+        );
 
         uint256 weiAmount = msg.value; // Calculate tokens to sell
-        uint256 tokens = weiAmount.mul(basePrice).div(1 ether);
-        uint256 returnWei = 0;
+        uint256 tokens = weiAmount.mul(basePrice);
 
-        if(tokensSold.add(tokens) > cap){
-            uint256 newTokens = cap.sub(tokensSold);
-            uint256 newWei = newTokens.div(basePrice).mul(1 ether);
-            returnWei = weiAmount.sub(newWei);
-            weiAmount = newWei;
-            tokens = newTokens;
-        }
-
-        tokensSold = tokensSold.add(tokens); // Increment raised amount
-        remainingTokens = cap.sub(tokensSold);
-        if(returnWei > 0){
-            msg.sender.transfer(returnWei);
-            emit Transfer(address(this), msg.sender, returnWei);
-        }
-
+        tokens_sold = tokens_sold.add(tokens); // Increment raised amount
+        
         balances[msg.sender] = balances[msg.sender].add(tokens);
-        emit Transfer(address(this), msg.sender, tokens);
+        emit Transfer(
+            address(0x0),
+            msg.sender,
+            tokens
+        );
         totalSupply_ = totalSupply_.add(tokens);
-        owner.transfer(weiAmount);// Send money to owner
+        address(
+            uint160(owner)
+        ).transfer(weiAmount); // Send money to owner
     }
-
 
     /**
      * @dev startIco starts the public ICO
      **/
     function startIco() public onlyOwner {
-        require(currentStage != Stages.icoEnd);
-        currentStage = Stages.icoStart;
+        require(
+            currentStage == Stages.none,
+            "ICO cannot only be started"
+        );
+        currentStage = Stages.start;
     }
-
 
     /**
      * @dev endIco closes down the ICO
      **/
-    function endIco() internal {
-        currentStage = Stages.icoEnd;
-        // Transfer any remaining tokens
-        if(remainingTokens > 0)
-            balances[owner] = balances[owner].add(remainingTokens);
-        // transfer any remaining ETH balance in the contract to the owner
-        owner.transfer(address(this).balance);
+    function endICO() internal {
+        require(
+            currentStage == Stages.start,
+            "cannot end ICO"
+        );
+        currentStage = Stages.end;
+
+        if (address(this).balance > 0) {
+            address(
+                uint160(owner)
+            ).transfer(
+                address(this).balance
+            ); // Send money to owner
+        }
     }
 
     /**
      * @dev finalizeIco closes down the ICO and sets needed varriables
      **/
-    function finalizeIco() public onlyOwner {
-        require(currentStage != Stages.icoEnd);
-        endIco();
+    function finalizeICO() public onlyOwner {
+        endICO();
     }
 
-}
-
-contract Airdrop is Ownable {
     /**
-     * @dev daAirdrop to address
-     * @param _tokenAddr address the erc20 token address
-     * @param dests address[] addresses to airdrop
-     * @param values uint256[] value(in ether) to airdrop
-     */
-    using SafeMath for uint256;
-    ERC20 public token;
-
-    mapping (address => bool) public tokensReceived; // Save addresses which already had an airdrop
-
-    function doAirdrop(address _tokenAddr, address[] _recipients, uint256[] values) onlyOwner public
-    returns (uint256) {
-        // This simple validation will catch most mistakes without consuming too much gas.
-        require(_recipients.length == values.length);
-        require(!tokensReceived[_recipients[i]]);
-
-        for (uint256 i = 0; i < _recipients.length; i++) {
-            require(token.transferFrom(_tokenAddr, _recipients[i], values[i] * (10 ** 18)));
-            tokensReceived[_recipients[i]] = true;
-        }
-        return(i);
-    }
-    /**
-     * @dev Return all tokens back to owner, in case any were accidentally
-     *   transferred to this contract.
-     */
-    function returnTokens() public onlyOwner {
-        token.transfer(owner, token.balanceOf(this));
-    }
-    /**
-     * @dev Destroy this contract and recover any ether to the owner.
-     */
-    function destroy() public onlyOwner {
-        selfdestruct(owner); // Selfdestuct only the AirDrop Contract!
+     * @dev change base price of token per ether
+     **/
+    function changeBasePrice(uint256 newBasePrice) public onlyOwner {
+        require(
+            newBasePrice > 0,
+            "base price cannot be zero"
+        );
+        uint256 oldBasePrice = basePrice;
+        basePrice = newBasePrice;
+        
+        emit BasePriceChanged(
+            oldBasePrice,
+            basePrice
+        );
     }
 }
-
 
 /**
  * @title PayToken
  * @dev Contract to create the PayToken
  **/
 contract PayToken is CrowdsaleToken {
-    string public constant name = "PayAccept";
-    string public constant symbol = "PAY";
-    uint256 public constant decimals = 18;
+    constructor() public {
+        balances[owner] = initial_supply;
+        totalSupply_ = initial_supply;
+        emit Transfer(
+            address(0x0),
+            owner,
+            initial_supply
+        );
+    }
 
-    uint256 public constant INITIAL_SUPPLY = 500000000 * 10**18;
+    function doAirdrop(
+        address[] memory recipients,
+        uint256[] memory values
+    ) public onlyOwner {
+        require(
+            recipients.length == values.length,
+            "recipients and values should have same number of values"
+        );
+        for (uint256 i = 0; i < recipients.length; i++) {
+            balances[recipients[i]] = balances[recipients[i]]
+                .add(values[i]);
 
-
+            balances[owner] = balances[owner]
+                .sub(values[i]);
+        }
+    }
 }
