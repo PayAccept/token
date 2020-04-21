@@ -559,9 +559,9 @@ contract CrowdsaleToken is
     }
 
     /**
-     * @dev startIco starts the public ICO
+     * @dev startICO starts the public ICO
      **/
-    function startIco() public onlyOwner {
+    function startICO() public onlyOwner {
         require(
             currentStage == Stages.none,
             "ICO cannot only be started"
