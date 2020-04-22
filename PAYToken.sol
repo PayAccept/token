@@ -1,6 +1,5 @@
 pragma solidity 0.5.7;
 
-
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
  * checks.
@@ -453,7 +452,7 @@ contract Configuration {
     string public name = "PayAccept";
     string public symbol = "PAY";
     uint256 public decimals = 18;
-    uint256 public initial_supply = 20000000 * 10**18;
+    uint256 public initial_supply = 25000000 * 10**18;
     uint256 public tokens_sold = 0;
 }
 
